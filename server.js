@@ -50,17 +50,16 @@ const user = {
 };
 
 app.get("/", (req, res) => {
-    res.redirect("login", {});
+    res.render("login", {});
 })
 
 app.post("/login", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    if (username === '' || password === '')
+    if (username === '' || password === '') {
         res.render("login", { errorMsg: "Missing Credentials" });
-
-    if (username === user.username && password === user.password) {
+    } else if (username === user.username && password === user.password) {
 
         // Add the user on the session and redirect them to the dashboard page.
         req.session.user = {
@@ -68,7 +67,7 @@ app.post("/login", (req, res) => {
             email: user.email
         };
 
-        res.render("/dashboard");
+        res.redirect("/dashboard");
     } else {
         // render 'invalid username or password'
         res.render("login", { errorMsg: "invalid username or password!" });
@@ -92,7 +91,6 @@ app.get("/dashboard", ensureLogin, (req, res) => {
 });
 
 /* AUTHORIZATION CHECKS END */
-
 
 app.listen(HTTP_PORT, () => {
     console.log(`Server started! Listening on port: ${HTTP_PORT}`)
