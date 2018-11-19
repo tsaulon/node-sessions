@@ -5,6 +5,18 @@ const bodyParser = require("body-parser");
 const exphbs = require("express-handlebars");
 const clientSessions = require("client-sessions");
 
+// This is a helper middleware function that checks if a user is logged in
+// we can use it in any route that we want to protect against unauthenticated access.
+// A more advanced version of this would include checks for authorization as well after
+// checking if the user is authenticated
+function ensureLogin(req, res, next) {
+    if (!req.session.user) {
+        res.redirect("/login");
+    } else {
+        next();
+    }
+}
+
 /* MIDDLEWARE START */
 
 // Register handlerbars as the rendering engine for views
@@ -57,9 +69,9 @@ app.post("/login", (req, res) => {
         };
 
         res.render("/dashboard");
-    } else{
+    } else {
         // render 'invalid username or password'
-        res.render("login", { errorMsg: "invalid username or password!"});
+        res.render("login", { errorMsg: "invalid username or password!" });
     }
 })
 
@@ -69,6 +81,18 @@ app.get("/logout", (req, res) => {
 })
 
 /* LOGIN HANDLER END */
+
+/* AUTHORIZATION CHECKS START */
+
+// An authenticated route that requires the user to be logged in.
+// Notice the middleware 'ensureLogin' that comes before the function
+// that renders the dashboard page
+app.get("/dashboard", ensureLogin, (req, res) => {
+    res.render("dashboard", { user: req.session.user });
+});
+
+/* AUTHORIZATION CHECKS END */
+
 
 app.listen(HTTP_PORT, () => {
     console.log(`Server started! Listening on port: ${HTTP_PORT}`)
