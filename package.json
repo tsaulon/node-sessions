@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/tsaulon/node-sessions/issues"
   },
-  "homepage": "https://github.com/tsaulon/node-sessions#readme"
+  "homepage": "https://github.com/tsaulon/node-sessions#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
