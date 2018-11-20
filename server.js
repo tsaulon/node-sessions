@@ -11,7 +11,7 @@ const clientSessions = require("client-sessions");
 // checking if the user is authenticated
 function ensureLogin(req, res, next) {
     if (!req.session.user) {
-        res.redirect("/login");
+        res.redirect("/");
     } else {
         next();
     }
@@ -27,6 +27,8 @@ app.set("view engine", ".hbs");
 // like images, css files, etc.
 app.use(express.static("static"));
 
+// Parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 //  Parse JSON data
 app.use(bodyParser.json());
 
@@ -44,9 +46,9 @@ app.use(clientSessions({
 
 // A simple user object, hardcoded for this example
 const user = {
-    username: "sampleuser",
-    password: "samplepassword",
-    email: "sampleuser@example.com"
+    username: "admin",
+    password: "admin",
+    email: "admin@example.com"
 };
 
 app.get("/", (req, res) => {
@@ -76,7 +78,7 @@ app.post("/login", (req, res) => {
 
 app.get("/logout", (req, res) => {
     req.session.reset();
-    res.redirect("/login");
+    res.redirect("/");
 })
 
 /* LOGIN HANDLER END */
@@ -94,7 +96,7 @@ app.get("/dashboard", ensureLogin, (req, res) => {
 
 /* FETCH API DEMO START */
 
-app.get("/fetchRequestDemo", (req,res) => {
+app.get("/fetchRequestDemo", ensureLogin, (req,res) => {
     res.render("fetchDemo");
 });
 
