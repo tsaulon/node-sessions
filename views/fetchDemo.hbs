@@ -9,13 +9,10 @@
                     method: method,
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    body: JSON.stringify(data)
                 }
 
-                //  add request body if header is not a GET request
-                if(method === "POST") {
-                    req.body = JSON.stringify({ fName: "Tyrone", lName: "Saulon" });
-                }
                 var MyRequest = new Request(url, req)
 
                 fetch(MyRequest).then(res => { return res.json(); }).then(json => console.log(json));

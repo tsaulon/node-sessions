@@ -27,8 +27,8 @@ app.set("view engine", ".hbs");
 // like images, css files, etc.
 app.use(express.static("static"));
 
-// Parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+//  Parse JSON data
+app.use(bodyParser.json());
 
 // Setup client-sessions
 app.use(clientSessions({
