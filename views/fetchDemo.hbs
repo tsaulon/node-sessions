@@ -5,15 +5,13 @@
         <script>
             function makeAJAXRequest(method, url, data){
 
-                let req = {
+                var MyRequest = new Request(url, {
                     method: method,
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(data)
-                }
-
-                var MyRequest = new Request(url, req)
+                })
 
                 fetch(MyRequest).then(res => { return res.json(); }).then(json => console.log(json));
             }
