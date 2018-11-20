@@ -92,6 +92,35 @@ app.get("/dashboard", ensureLogin, (req, res) => {
 
 /* AUTHORIZATION CHECKS END */
 
+/* FETCH API DEMO START */
+
+app.get("/fetchRequestDemo", (req,res) => {
+    res.render("fetchDemo");
+});
+
+app.get("/api/users", (req, res) => {
+    res.json({message: "fetch all users"});
+});
+
+app.post("/api/users", (req, res) => {
+     res.json({message: "add the user: " + req.body.fName + " " + req.body.lName});
+});
+
+app.get("/api/users/:userId", (req, res) => {
+    res.json({message: "get user with Id: " + req.params.userId});
+});
+
+app.put("/api/users/:userId", (req, res) => {
+    res.json({message: "update User with Id: " + req.params.userId + " to " + req.body.fName + " " + req.body.lName});
+});
+
+app.delete("/api/users/:userId", (req, res) => {
+     res.json({message: "delete User with Id: " + req.params.userId});
+});
+
+/* FETCH API DEMO END */
+
+/* FETCH API DEMO END */
 app.listen(HTTP_PORT, () => {
     console.log(`Server started! Listening on port: ${HTTP_PORT}`)
 })
